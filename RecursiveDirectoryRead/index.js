@@ -2,30 +2,14 @@ const fs = require('fs');
 const path = require('path');
 const dirPath = "./sample/"; //Path to directory which contains all the files,folders and sub-folders
 let FilesArr = [];
+// setInterval(() => {
+    FilesArr = returnDaughterFiles(dirPath);
+// },1500);
 
 
-setInterval(() => {
-    FilesArrTemp = [];
-    fs.readdir(dirPath, (err,files) => {
-        if(err){
-            console.log(err);
-        }
-        files.map((file) => {
-            if(checkIfFile(path.join(dirPath,file))){
-                FilesArrTemp.push(file);
-            }
-            else {
-                FilesArrTemp.push(...returnDaughterFiles(file));                    
-            }
-        })
-    });
-    FilesArr = FilesArrTemp;
-},1500);
-
-
-setInterval(() => {
+// setTimeout(() => {
     console.log(FilesArr);
-},2000);
+// },2000);
 
 
 
@@ -33,12 +17,12 @@ function returnDaughterFiles(dirToCheck){
     let ReturnArr = [];
     let contents = [];
     try {
-       contents = fs.readdirSync(path.join(dirPath,dirToCheck))
+       contents = fs.readdirSync(dirToCheck)
     }catch(err){
         console.log(err);
     }
     contents.forEach(file => {
-        if(checkIfFile(path.join(dirPath,dirToCheck,file))){
+        if( fs.lstatSync( path.join(dirToCheck,file) ).isFile() ){
             ReturnArr.push(path.join(dirToCheck,file));
         }
         else{
