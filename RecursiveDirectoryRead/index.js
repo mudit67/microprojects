@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+
 const dirPath = "./sample/"; //Path to directory which contains all the files,folders and sub-folders
+
 let FilesArr = [];
 // setInterval(() => {
     FilesArr = returnDaughterFiles(dirPath);
@@ -13,16 +15,16 @@ let FilesArr = [];
 
 
 
-function returnDaughterFiles(dirToCheck){
-    let ReturnArr = [];
-    let contents = [];
+function returnDaughterFiles(dirToCheck){ //function to return all the files present in the dirToCheck Directory and all sub-directory
+    let ReturnArr = []; // temporary arr to hold all files in dirToCheck and also in its sub-folders
+    let contents = []; // temporary arr to hold files and folder contained in dirToCheck and not in its sub-folders maxDepth=0
     try {
        contents = fs.readdirSync(dirToCheck)
     }catch(err){
         console.log(err);
     }
     contents.forEach(file => {
-        if( fs.lstatSync( path.join(dirToCheck,file) ).isFile() ){
+        if(fs.lstatSync( path.join(dirToCheck,file)).isFile()){ //check if "file" is a file or not
             ReturnArr.push(path.join(dirToCheck,file));
         }
         else{
