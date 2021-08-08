@@ -5,33 +5,42 @@ const dirPath = "./sample/"; //Path to directory which contains all the files,fo
 
 let FilesArr = [];
 // setInterval(() => {
-    FilesArr = returnDaughterFiles(dirPath);
+FilesArr = returnDaughterFiles(dirPath);
 // },1500);
 
 
 // setTimeout(() => {
-    console.log(FilesArr);
+console.log(FilesArr);
 // },2000);
 
+// Function to return whether the argument (path) refers to a directory or a file
+// console.log(checkIfFile);
 
-
-function returnDaughterFiles(dirToCheck){ //function to return all the files present in the dirToCheck Directory and all sub-directory
+function returnDaughterFiles(dirToCheck) { //function to return all the files present in the dirToCheck Directory and all sub-directory
     let ReturnArr = []; // temporary arr to hold all files in dirToCheck and also in its sub-folders
     let contents = []; // temporary arr to hold files and folder contained in dirToCheck and not in its sub-folders maxDepth=0
     try {
-       contents = fs.readdirSync(dirToCheck)
-    }catch(err){
+        contents = fs.readdirSync(dirToCheck)
+    } catch (err) {
         console.log(err);
     }
     contents.forEach(file => {
-        if(fs.lstatSync( path.join(dirToCheck,file)).isFile()){ //check if "file" is a file or not
-            ReturnArr.push(path.join(dirToCheck,file));
-        }
-        else{
-            ReturnArr.push(...returnDaughterFiles(path.join(dirToCheck,file)));
+        if (checkIfFile(path.join(dirToCheck, file))) { //check if "file" is a file or not
+            ReturnArr.push(path.join(dirToCheck, file));
+        } else {
+            ReturnArr.push(...returnDaughterFiles(path.join(dirToCheck, file)));
         }
     });
-    return(ReturnArr);
+    return (ReturnArr);
 }
-// Function to return whether the argument (path) refers to a directory or a file
-const checkIfFile = path => fs.lstatSync(path).isFile();
+
+function checkIfFile(path) { return (fs.lstatSync(path).isFile()); }
+
+
+// 2 min
+
+
+
+
+
+
