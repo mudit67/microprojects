@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Sort Feed | Instagram & TikTok Sorter and Exporter",
+  "description": "Sort TikTok & Instagram Reels and Posts by likes, views, creation date, & more. Also, export data to Excel, CSV, or JSON.",
+  "version": "5.14",
+  "permissions": ["activeTab", "tabs"],
+  "host_permissions": [
+    "https://www.instagram.com/*",
+    "https://www.tiktok.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "Icons/16 Sort Feed.png",
+      "48": "Icons/48 Sort Feed.png",
+      "128": "Icons/128 Sort Feed.png"
+    }
+  },
+  "icons": {
+    "16": "Icons/16 Sort Feed.png",
+    "48": "Icons/48 Sort Feed.png",
+    "128": "Icons/128 Sort Feed.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "css": ["Animate/animate.css"],
+      "js": [
+        "Instagram/init_sortfeed_instagram.js",
+        "Instagram/inject_instagram_script.js",
+        "Instagram/show_overlay_banner.js",
+        "Instagram/banner_on_insta.js",
+        "Instagram/export/csv_insta_export_function.js",
+        "Instagram/export/json_insta_export_function.js",
+        "Instagram/export/excel_insta_export_function.js",
+        "Instagram/export/xlsx.full.min.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "Icons/*.png",
+        "Instagram/script_instagram.js",
+        "Tiktok/script_tiktok.js"
+      ],
+      "matches": ["https://www.instagram.com/*", "https://www.tiktok.com/*"]
+    }
+  ]
+}
